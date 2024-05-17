@@ -5,9 +5,9 @@
   </ul>
 </template>
 <script setup lang="ts">
-import { getDefaultKey, searchResult } from "@/service";
+import { getDefaultKey } from "@/service";
 import { useRequest } from "vue-request";
-const defaultKey = ref();
+// const defaultKey = ref();
 const { loading, error, data: res } = useRequest(getDefaultKey, {});
 watchEffect(() => {
   console.log(loading);
