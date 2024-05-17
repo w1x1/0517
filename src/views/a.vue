@@ -375,7 +375,7 @@ watchEffect(() => {
   // console.log(resDetail.value);
   selected.value = deTailList?.slice(10,21);
   // console.log(selected.value);
-  // console.log(playlist);
+  console.log(playlist);
   songData.value = songlist.value?.data.songs[0].al.picUrl;
   // console.log(songData.value);
   // 精选榜

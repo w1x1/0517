@@ -33,7 +33,7 @@ export const topList = async () => {
 };
 // 榜单内容摘要
 export const toplistDetail = async () => {
-  const [err, res] = await to(http.get<Res.List>("/toplist/detail"));
+  const [err, res] = await to(http.get("/toplist/detail"));
   if (err) throw new Error("请求失败");
   return res;
 };
@@ -63,7 +63,7 @@ export const songList = async (params:Song) => {
 };
 // 获取首页数据中的mv
 export const getHomePageData = async () => {
-  const [err, res] = await to(http.get<Song>("/homepage/block/page"));
+  const [err, res] = await to(http.get("/homepage/block/page"));
   if (err) throw new Error("请求失败");
   return res;
 };

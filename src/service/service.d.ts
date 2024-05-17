@@ -168,6 +168,7 @@ namespace Res {
     toplistType: string;
   }
   interface Song {
+    data: any[];
     name: string;
     id: number;
     pst: number;
