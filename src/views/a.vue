@@ -296,16 +296,108 @@
         <div class="font-bold text-[5vw]">精选榜</div>
       </div>
       <div class="w-[92vw] flex items-center flex-wrap">
-        <div v-for="data in selected" class="mr-[1vw] ml-[0.6vw] mt-[2vw]" >
-          <img :src="data.coverImgUrl" class="w-[29vw] h-[29vw] rounded-[15px]" alt="">
+        <div v-for="data in selected" class="relative mr-[1vw] ml-[0.6vw] mt-[2vw]">
+          <img
+            :src="data.coverImgUrl"
+            class="w-[29vw] h-[29vw] rounded-[15px]"
+            alt=""
+          />
+          <Icon
+            icon="bxs:right-arrow"
+            style="color: #fdfcfc"
+            class="z-20 absolute text-[5vw] bottom-[2vw] right-[2vw]"
+          />
         </div>
       </div>
       <!-- 曲风榜 -->
       <div class="mt-[15vw] flex items-center">
         <div class="font-bold text-[5vw] mr-[2vw]">曲风榜</div>
-        <div class="h-[7vw] w-[13vw] flex px-[1vw] text-center items-center rounded-[15px] text-[#5c5d60] bg-[#e6e9f0]">
+        <div
+          @click="clickGenre"
+          class="h-[7vw] w-[13vw] flex px-[1vw] text-center items-center rounded-[15px] text-[#5c5d60] bg-[#e6e9f0]"
+        >
           <p class="font-bold mx-auto text-[3.5vw]">更多</p>
-          <Icon icon="material-symbols:keyboard-arrow-right" class="text-[3vw]" />
+          <Icon
+            icon="material-symbols:keyboard-arrow-right"
+            class="text-[3vw]"
+          />
+        </div>
+      </div>
+      <div class="w-[92vw] flex items-center flex-wrap">
+        <div v-for="data in genre" class="relative mr-[1vw] ml-[0.6vw] mt-[2vw]">
+          <img
+            :src="data.coverImgUrl"
+            class="w-[29vw] h-[29vw] rounded-[15px]"
+            alt=""
+          />
+          <Icon
+            icon="bxs:right-arrow"
+            style="color: #fdfcfc"
+            class="z-20 absolute text-[5vw] bottom-[2vw] right-[2vw]"
+          />
+        </div>
+      </div>
+      <!-- 全球榜 -->
+      <div class="mt-[15vw]">
+        <div class="font-bold text-[5vw]">全球榜</div>
+      </div>
+      <div class="w-[92vw] flex items-center flex-wrap">
+        <div v-for="data in global" class="relative mr-[1vw] ml-[0.6vw] mt-[2vw]">
+          <img
+            :src="data.coverImgUrl"
+            class="w-[29vw] h-[29vw] rounded-[15px]"
+            alt=""
+          />
+          <Icon
+            icon="bxs:right-arrow"
+            style="color: #fdfcfc"
+            class="z-20 absolute text-[5vw] bottom-[2vw] right-[2vw]"
+          />
+        </div>
+      </div>
+      <!-- 语种榜 -->
+      <div class="mt-[15vw]">
+        <div class="font-bold text-[5vw]">语种榜</div>
+      </div>
+      <div class="w-[92vw] flex items-center flex-wrap">
+        <div
+          v-for="data in language"
+          class="relative mr-[1vw] ml-[0.6vw] mt-[2vw]"
+        >
+          <img
+            :src="data.coverImgUrl"
+            class="w-[29vw] h-[29vw] rounded-[15px]"
+            alt=""
+          />
+          <div
+            class="rounded-[15px] imgBg absolute top-0 left-0 right-0 bottom-0 w-[29vw] h-[29vw] z-10"
+          ></div>
+          <Icon
+            icon="bxs:right-arrow"
+            style="color: #fdfcfc"
+            class="z-20 absolute text-[5vw] bottom-[2vw] right-[2vw]"
+          />
+        </div>
+      </div>
+      <!-- 特色榜 -->
+      <div class="mt-[15vw]">
+        <div class="font-bold text-[5vw]">特色榜</div>
+      </div>
+      <div class="w-[92vw] flex items-center flex-wrap">
+        <div
+          v-for="data in characteristic"
+          class="relative mr-[1vw] ml-[0.6vw] mt-[2vw]"
+        >
+          <img
+            :src="data.coverImgUrl"
+            class="w-[29vw] h-[29vw] rounded-[15px]"
+            alt=""
+          />
+          <Icon
+            icon="bxs:right-arrow"
+            style="color: #fdfcfc"
+            class="z-20 absolute text-[5vw] bottom-[2vw] right-[2vw]"
+          />
         </div>
       </div>
     </div>
@@ -349,12 +441,24 @@ const mvData = ref();
 // 精选榜
 const selected = ref();
 // 曲风榜
-
+const genre = ref();
+// 点击更多
+const clickTada = ref(false);
+let clickGenre = () => {};
+// 全球榜
+const global = ref();
+// 语种
+const language = ref();
+// 特色榜
+const characteristic = ref();
 watchEffect(() => {
+  let gloadAll = [];
+  let languageAll = [];
+  let characteristicAll = [];
   const remommend = res.value?.data.list;
   listRecommend.value = remommend?.slice(0, 3);
-  
-  // console.log(listRecommend.value);
+
+  console.log(remommend);
   const deTailList = listDetail.value?.data.list;
   const allRes: any[] = [];
   for (let i = 0; i < deTailList?.length; i++) {
@@ -373,16 +477,61 @@ watchEffect(() => {
   }
   resDetail.value = allRes;
   // console.log(resDetail.value);
-  selected.value = deTailList?.slice(10,21);
+  selected.value = deTailList?.slice(10, 21);
   // console.log(selected.value);
   console.log(playlist);
   songData.value = songlist.value?.data.songs[0].al.picUrl;
   // console.log(songData.value);
   // 精选榜
   // console.log(deTailList);
-  
-  
-
+  // 曲风榜
+  genre.value = deTailList?.slice(3, 11);
+  clickGenre = () => {
+    clickTada.value = !clickTada.value;
+    if (clickTada.value) {
+      genre.value = deTailList?.slice(3, 24);
+    } else {
+      genre.value = deTailList?.slice(3, 11);
+    }
+  };
+  // 全球榜
+  if (deTailList) {
+    gloadAll.push(
+      deTailList[9],
+      deTailList[15],
+      deTailList[21],
+      deTailList[32],
+      deTailList[28],
+      deTailList[29]
+    );
+  }
+  // console.log(gloadAll);
+  global.value = gloadAll;
+  // 语种榜
+  if (deTailList) {
+    languageAll.push(
+      deTailList[15],
+      deTailList[16],
+      deTailList[21],
+      deTailList[9],
+      deTailList[32],
+      deTailList[28],
+      deTailList[29]
+    );
+  }
+  language.value = languageAll;
+  // 特色榜
+  if (deTailList) {
+    characteristicAll.push(
+      deTailList[35],
+      deTailList[33],
+      deTailList[26],
+      deTailList[44],
+      deTailList[24],
+      deTailList[13],
+    );
+  }
+  characteristic.value = characteristicAll;
   // 首页mv
   const mvHome = homepage.data.value?.data.data.blocks[3].creatives;
   for (let i = 0; i < mvHome?.length; i++) {
@@ -408,7 +557,11 @@ watchEffect(() => {
   width: 120vw;
   background: #f2f5fb;
 }
-.van-tab{
+.van-tab {
   font-size: 5vw;
+}
+.imgBg {
+  background: linear-gradient(to bottom, #06034f, #a88afb);
+  opacity: 0.3;
 }
 </style>

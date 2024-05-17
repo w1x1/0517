@@ -218,5 +218,3 @@ namespace Res {
     alg: string;
   }
 }
-
-
